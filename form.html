@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Student Registration</title>
+  <style>
+    :root{ --gap:12px; --label-width:110px; --err:#b00020 }
+    body{ font-family: system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif; padding:24px; color:#111 }
+    h1{ margin:0 0 18px 0; font-size:20px }
+    form{ max-width:640px; background:#fff; padding:16px; border:1px solid #ddd; border-radius:6px }
+    .row{ display:flex; gap:var(--gap); align-items:center; margin-bottom:10px }
+    label{ width:var(--label-width); font-weight:600 }
+    input[type="text"], input[type="email"], select{ flex:1; padding:6px 8px; border:1px solid #bbb; border-radius:4px }
+    .small{ max-width:160px }
+    .error{ color:var(--err); font-size:13px; margin-left:8px }
+    .actions{ display:flex; gap:10px; margin-top:14px }
+    .actions button{ padding:8px 12px; border-radius:4px; border:1px solid #888; background:#f3f3f3; cursor:pointer }
+    .actions button.primary{ background:#2b7cff; color:#fff; border-color:#1f5fd6 }
+    .note{ margin-top:8px; font-size:13px; color:#444 }
+    @media (max-width:520px){ label{ width:100px } .row{ flex-direction:column; align-items:flex-start } }
+  </style>
+</head>
+<body>
+  <h1>Student Registration</h1>
+  <form id="student-form" action="/submit" method="post" novalidate>
+    <div class="row">
+      <label for="sid">Student ID</label>
+      <!-- Use text + inputmode so mobile devices show numeric keyboard; pattern enforces digits; maxlength can be adjusted -->
+      <input id="sid" name="sid" type="text" inputmode="numeric" pattern="\d+" maxlength="10" class="small" required aria-describedby="sid-error">
+      <span id="sid-error" class="error" aria-live="polite"></span>
+    </div>
+
+    <div class="row">
+      <label for="lastName">Last name</label>
+      <input id="lastName" name="lastName" type="text" required>
+    </div>
+
+    <div class="row">
+      <label for="firstName">First name</label>
+      <input id="firstName" name="firstName" type="text" required>
+    </div>
+
+    <div class="row">
+      <label for="course">Course</label>
+      <select id="course" name="course">
+        <option value="web">Web Programming</option>
+        <option value="db">Databases</option>
+        <option value="net">Networks</option>
+        <option value="algo">Algorithms</option>
+      </select>
+    </div>
+
+    <div class="row">
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email">
+    </div>
+
+    <div class="actions">
+      <button type="submit" class="primary">Submit</button>
+      <button type="reset">Reset</button>
+      <a href="index.html" style="margin-left:auto; align-self:center; text-decoration:none; color:#2b7cff">Back to attendance</a>
+    </div>
+
+    <p class="note">Student ID: digits only. Max length 10. This validation happens client-side; always validate server-side too.</p>
+  </form>
+
+  <script>
+    (function(){
+      const form = document.getElementById('student-form');
+      const sid = document.getElementById('sid');
+      const sidError = document.getElementById('sid-error');
+
+      // Remove non-digits while typing and keep caret position
+      sid.addEventListener('input', function(e){
+        const before = sid.value;
+        const cleaned = before.replace(/\D+/g, '');
+        if(cleaned !== before){
+          const selection = sid.selectionStart - (before.length - cleaned.length);
+          sid.value = cleaned;
+          // clamp selection
+          const pos = Math.max(0, Math.min(cleaned.length, selection));
+          sid.setSelectionRange(pos, pos);
+        }
+        sidError.textContent = '';
+      });
+
+      // Prevent paste of non-digits
+      sid.addEventListener('paste', function(e){
+        const text = (e.clipboardData || window.clipboardData).getData('text');
+        if(/\D/.test(text)){
+          e.preventDefault();
+          // insert only digits
+          const digits = text.replace(/\D+/g, '');
+          const start = sid.selectionStart;
+          const end = sid.selectionEnd;
+          const val = sid.value;
+          sid.value = val.slice(0,start) + digits + val.slice(end);
+          sid.setSelectionRange(start + digits.length, start + digits.length);
+        }
+      });
+
+      form.addEventListener('submit', function(e){
+        const value = sid.value.trim();
+        if(!/^\d+$/.test(value)){
+          e.preventDefault();
+          sidError.textContent = 'Enter a numeric Student ID (digits only).';
+          sid.focus();
+          return false;
+        }
+        // Optionally enforce length
+        if(value.length < 4){
+          e.preventDefault();
+          sidError.textContent = 'Student ID must be at least 4 digits.';
+          sid.focus();
+          return false;
+        }
+        // no client-side blocking beyond this; server should re-validate
+      });
+
+      form.addEventListener('reset', function(){
+        setTimeout(()=> sidError.textContent = '', 0);
+      });
+    })();
+  </script>
+</body>
+</html>
