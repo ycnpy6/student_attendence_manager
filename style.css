@@ -1,0 +1,8 @@
+/* This file intentionally imports the canonical stylesheet used by the pages.
+	The primary styles live in `styles.css`. Keeping this file lets editors
+	and other pages that reference `style.css` still work while you develop.
+*/
+
+@import url("styles.css");
+
+/* You can put local overrides here if needed. */

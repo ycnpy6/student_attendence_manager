@@ -9,11 +9,13 @@
     body{ font-family: system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif; padding:24px; color:#111 }
     h1{ margin:0 0 18px 0; font-size:20px }
     form{ max-width:640px; background:#fff; padding:16px; border:1px solid #ddd; border-radius:6px }
-    .row{ display:flex; gap:var(--gap); align-items:center; margin-bottom:10px }
-    label{ width:var(--label-width); font-weight:600 }
-    input[type="text"], input[type="email"], select{ flex:1; padding:6px 8px; border:1px solid #bbb; border-radius:4px }
+    .row{ display:flex; gap:var(--gap); align-items:flex-start; margin-bottom:15px }
+    .row .form-group{ flex:1; display:flex; flex-direction:column; gap:4px }
+    label{ width:var(--label-width); font-weight:600; flex-shrink:0 }
+    input[type="text"], input[type="email"], select{ flex:1; padding:6px 8px; border:1px solid #bbb; border-radius:4px; width:100% }
     .small{ max-width:160px }
-    .error{ color:var(--err); font-size:13px; margin-left:8px }
+    .form-group .small{ width:auto; flex:none }
+    .error{ color:var(--err); font-size:12px; margin:0 }
     .actions{ display:flex; gap:10px; margin-top:14px }
     .actions button{ padding:8px 12px; border-radius:4px; border:1px solid #888; background:#f3f3f3; cursor:pointer }
     .actions button.primary{ background:#2b7cff; color:#fff; border-color:#1f5fd6 }
@@ -23,22 +25,29 @@
 </head>
 <body>
   <h1>Student Registration</h1>
-  <form id="student-form" action="/submit" method="post" novalidate>
+  <form id="student-form" novalidate>
     <div class="row">
       <label for="sid">Student ID</label>
-      <!-- Use text + inputmode so mobile devices show numeric keyboard; pattern enforces digits; maxlength can be adjusted -->
-      <input id="sid" name="sid" type="text" inputmode="numeric" pattern="\d+" maxlength="10" class="small" required aria-describedby="sid-error">
-      <span id="sid-error" class="error" aria-live="polite"></span>
+      <div class="form-group">
+        <input id="sid" name="sid" type="text" inputmode="numeric" pattern="\d+" maxlength="10" class="small" required aria-describedby="sid-error">
+        <span id="sid-error" class="error" aria-live="polite"></span>
+      </div>
     </div>
 
     <div class="row">
       <label for="lastName">Last name</label>
-      <input id="lastName" name="lastName" type="text" required>
+      <div class="form-group">
+        <input id="lastName" name="lastName" type="text" required aria-describedby="lastName-error">
+        <span id="lastName-error" class="error" aria-live="polite"></span>
+      </div>
     </div>
 
     <div class="row">
       <label for="firstName">First name</label>
-      <input id="firstName" name="firstName" type="text" required>
+      <div class="form-group">
+        <input id="firstName" name="firstName" type="text" required aria-describedby="firstName-error">
+        <span id="firstName-error" class="error" aria-live="polite"></span>
+      </div>
     </div>
 
     <div class="row">
@@ -53,7 +62,10 @@
 
     <div class="row">
       <label for="email">Email</label>
-      <input id="email" name="email" type="email">
+      <div class="form-group">
+        <input id="email" name="email" type="email" aria-describedby="email-error">
+        <span id="email-error" class="error" aria-live="polite"></span>
+      </div>
     </div>
 
     <div class="actions">
@@ -70,56 +82,157 @@
       const form = document.getElementById('student-form');
       const sid = document.getElementById('sid');
       const sidError = document.getElementById('sid-error');
+      const lastName = document.getElementById('lastName');
+      const lastNameError = document.getElementById('lastName-error');
+      const firstName = document.getElementById('firstName');
+      const firstNameError = document.getElementById('firstName-error');
+      const email = document.getElementById('email');
+      const emailError = document.getElementById('email-error');
 
-      // Remove non-digits while typing and keep caret position
+      // Validation functions
+      function validateStudentID(value) {
+        if (!value || value.trim() === '') {
+          return 'Student ID is required';
+        }
+        if (!/^\d+$/.test(value)) {
+          return 'Student ID must contain only numbers';
+        }
+        return '';
+      }
+
+      function validateName(value, fieldName) {
+        if (!value || value.trim() === '') {
+          return fieldName + ' is required';
+        }
+        if (!/^[a-zA-Z\s'-]+$/.test(value)) {
+          return fieldName + ' must contain only letters';
+        }
+        return '';
+      }
+
+      function validateEmail(value) {
+        if (!value || value.trim() === '') {
+          return ''; // Email is optional
+        }
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(value)) {
+          return 'Please enter a valid email address (e.g., name@example.com)';
+        }
+        return '';
+      }
+
+      // Student ID validation
       sid.addEventListener('input', function(e){
         const before = sid.value;
         const cleaned = before.replace(/\D+/g, '');
         if(cleaned !== before){
           const selection = sid.selectionStart - (before.length - cleaned.length);
           sid.value = cleaned;
-          // clamp selection
           const pos = Math.max(0, Math.min(cleaned.length, selection));
           sid.setSelectionRange(pos, pos);
         }
         sidError.textContent = '';
       });
 
-      // Prevent paste of non-digits
-      sid.addEventListener('paste', function(e){
-        const text = (e.clipboardData || window.clipboardData).getData('text');
-        if(/\D/.test(text)){
-          e.preventDefault();
-          // insert only digits
-          const digits = text.replace(/\D+/g, '');
-          const start = sid.selectionStart;
-          const end = sid.selectionEnd;
-          const val = sid.value;
-          sid.value = val.slice(0,start) + digits + val.slice(end);
-          sid.setSelectionRange(start + digits.length, start + digits.length);
-        }
+      sid.addEventListener('blur', function() {
+        const error = validateStudentID(sid.value);
+        sidError.textContent = error;
       });
 
+      // Last Name validation
+      lastName.addEventListener('blur', function() {
+        const error = validateName(lastName.value, 'Last name');
+        lastNameError.textContent = error;
+      });
+
+      // First Name validation
+      firstName.addEventListener('blur', function() {
+        const error = validateName(firstName.value, 'First name');
+        firstNameError.textContent = error;
+      });
+
+      // Email validation
+      email.addEventListener('blur', function() {
+        const error = validateEmail(email.value);
+        emailError.textContent = error;
+      });
+
+      // Form submission validation
       form.addEventListener('submit', function(e){
-        const value = sid.value.trim();
-        if(!/^\d+$/.test(value)){
-          e.preventDefault();
-          sidError.textContent = 'Enter a numeric Student ID (digits only).';
+        e.preventDefault();
+        
+        let hasErrors = false;
+        
+        // Validate Student ID
+        const sidErr = validateStudentID(sid.value);
+        sidError.textContent = sidErr;
+        if (sidErr) {
+          hasErrors = true;
           sid.focus();
+        }
+        
+        // Validate Last Name
+        const lastNameErr = validateName(lastName.value, 'Last name');
+        lastNameError.textContent = lastNameErr;
+        if (lastNameErr) {
+          hasErrors = true;
+          if (!sidErr) lastName.focus();
+        }
+        
+        // Validate First Name
+        const firstNameErr = validateName(firstName.value, 'First name');
+        firstNameError.textContent = firstNameErr;
+        if (firstNameErr) {
+          hasErrors = true;
+          if (!sidErr && !lastNameErr) firstName.focus();
+        }
+        
+        // Validate Email
+        const emailErr = validateEmail(email.value);
+        emailError.textContent = emailErr;
+        if (emailErr) {
+          hasErrors = true;
+          if (!sidErr && !lastNameErr && !firstNameErr) email.focus();
+        }
+        
+        // If there are errors, prevent submission
+        if (hasErrors) {
           return false;
         }
-        // Optionally enforce length
-        if(value.length < 4){
-          e.preventDefault();
-          sidError.textContent = 'Student ID must be at least 4 digits.';
-          sid.focus();
-          return false;
-        }
-        // no client-side blocking beyond this; server should re-validate
+        
+        // Get form data
+        const formData = {
+          id: sid.value,
+          lastName: lastName.value,
+          firstName: firstName.value,
+          course: document.getElementById('course').value,
+          email: email.value
+        };
+        
+        // Save to localStorage
+        let students = JSON.parse(localStorage.getItem('students') || '[]');
+        students.push(formData);
+        localStorage.setItem('students', JSON.stringify(students));
+        
+        // Show success message
+        alert('Student added successfully!');
+        form.reset();
+        sidError.textContent = '';
+        lastNameError.textContent = '';
+        firstNameError.textContent = '';
+        emailError.textContent = '';
+        
+        // Optional: Redirect to attendance list
+        window.location.href = 'index.html';
       });
 
       form.addEventListener('reset', function(){
-        setTimeout(()=> sidError.textContent = '', 0);
+        setTimeout(()=> {
+          sidError.textContent = '';
+          lastNameError.textContent = '';
+          firstNameError.textContent = '';
+          emailError.textContent = '';
+        }, 0);
       });
     })();
   </script>

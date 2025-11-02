@@ -1,179 +1,192 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Student Attendance</title>
-  <style>
-    body {
-      font-family: Georgia, 'Times New Roman', Times, serif;
-      padding: 24px;
-      background: #fff;
-      color: #111;
-    }
-    h1 {
-      font-size: 20px;
-      margin-bottom: 12px;
-    }
-    .table-wrap {
-      max-width: 960px;
-    }
-    table.attendance {
-      width: 100%;
-      border-collapse: collapse;
-      table-layout: fixed;
-      border: 2px solid #333;
-      font-size: 16px;
-    }
-    table.attendance th,
-    table.attendance td {
-      border: 1px solid #333;
-      padding: 8px 10px;
-      text-align: left;
-      vertical-align: middle;
-      word-wrap: break-word;
-    }
-    table.attendance thead th {
-      background: #f4f4f4;
-      font-weight: 600;
-      text-align: center;
-    }
-    /* Make numeric columns narrower */
-    .col-id { width: 12%; }
-    .col-last { width: 23%; text-align:left }
-    .col-first { width: 23%; text-align:left }
-    .col-course { width: 20%; text-align:left }
-    /* combined width for both session subcolumns */
-    .col-session { width: 22%; }
-    /* explicit widths for each of the two subcolumns so labels fit cleanly */
-    .col-present { width: 11%; }
-    .col-participated { width: 11%; }
-
-    /* Center the checkboxes in their cells */
-    .attendance td.checkbox-cell,
-    .attendance th.checkbox-cell { text-align:center; }
-    .attendance input[type="checkbox"] {
-      width: 18px;
-      height: 18px;
-      vertical-align: middle;
-      cursor: pointer;
-    }
-
-    /* label used in the header for the checkbox + text */
-    .checkbox-label {
-      display: inline-flex;
-      align-items: center;
-      /* keep checkbox and text together but don't try to stretch/justify content which can push text out */
-      justify-content: center;
-      gap: 6px;
-      cursor: pointer;
-      /* allow wrapping so long labels like "Participated" don't overflow the cell */
-      white-space: normal;
-    }
-
-    /* make the header label text slightly smaller so it fits better */
-    .checkbox-label span {
-      display: inline-block;
-      font-size: 13px;
-      line-height: 1;
-    }
-
-    /* allow header cells to break long words and wrap content when necessary */
-    .attendance th.checkbox-cell { overflow-wrap: anywhere; }
-
-    /* a little less vertical padding for header cells so the checkbox sits visually centered */
-    table.attendance thead th {
-      padding: 6px 8px;
-    }
-
-    /* keep normal padding for body cells */
-    table.attendance td { padding: 8px 10px; }
-
-    caption {
-      caption-side: bottom;
-      text-align: left;
-      margin-top: 8px;
-      font-size: 13px;
-      color: #444;
-    }
-    /* Small responsive tweak */
-    @media (max-width:600px){
-      table.attendance { font-size:14px }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <title>Exercise 1 – Attendance Tracker</title>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #e0e1e9;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(172, 183, 243, 0.1);
+            overflow: hidden;
+        }
+        header {
+            background: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 { margin: 0; font-size: 1.8em; }
+        .info {
+            padding: 15px 20px;
+            background: #e7f3ff;
+            font-size: 0.95em;
+            color: #004085;
+            border-left: 4px solid #007bff;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background: #6c757d;
+            color: white;
+            padding: 12px 8px;
+            text-align: center;
+            font-weight: 600;
+            border: 1px solid #495057;
+        }
+        td {
+            padding: 10px;
+            text-align: center;
+            border: 1px solid #dee2e6;
+        }
+        .btn {
+            width: 34px;
+            height: 34px;
+            border: 2px solid #6c757d;
+            border-radius: 8px;
+            background: #f8f9fa;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+        }
+        .btn:hover { transform: scale(1.08); }
+        .present {
+            background: #28a745 !important;
+            color: white;
+            border-color: #28a745;
+        }
+        .participate {
+            background: #007bff !important;
+            color: white;
+            border-color: #007bff;
+        }
+        .row-green  { background: #d4edda !important; }
+        .row-yellow { background: #fff3cd !important; }
+        .row-red    { background: #f8d7da !important; }
+        .calc-btn {
+            display: block;
+            margin: 25px auto;
+            padding: 14px 40px;
+            font-size: 1.1em;
+            font-weight: bold;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,123,255,0.3);
+        }
+        .calc-btn:hover {
+            background: #0056b3;
+            transform: translateY(-2px);
+        }
+        .msg { font-style: italic; color: #555; }
+    </style>
 </head>
 <body>
-  <h1>Exercise 1 — Student Attendance</h1>
-  <div class="table-wrap">
-    <table class="attendance" aria-describedby="attendance-desc">
-      <thead>
-        <tr>
-          <th class="col-id">Student ID</th>
-          <th class="col-last">Last Name</th>
-          <th class="col-first">First Name</th>
-          <th class="col-course">Course</th>
-          <th class="col-session" colspan="2">Session date</th>
-        </tr>
-        <tr>
-          <!-- second header row for the two session subcolumns -->
-          <th scope="col">&nbsp;</th>
-          <th scope="col">&nbsp;</th>
-          <th scope="col">&nbsp;</th>
-          <th scope="col">&nbsp;</th>
-          <th scope="col" class="checkbox-cell col-present">
-            <label class="checkbox-label">
-              
-              <span>Present</span>
-            </label>
-          </th>
-          <th scope="col" class="checkbox-cell col-participated">
-            <label class="checkbox-label">
-              
-              <span>Participated</span>
-            </label>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Each row contains the information of one student -->
-        <tr>
-          <td class="col-id">2025001</td>
-          <td class="col-last">Adjao</td>
-          <td class="col-first">Amina</td>
-          <td class="col-course">Web Programming</td>
-          <td class="checkbox-cell"><input class="present-checkbox" type="checkbox" aria-label="Amina present" checked></td>
-          <td class="checkbox-cell"><input class="participated-checkbox" type="checkbox" aria-label="Amina participated"></td>
-        </tr>
-        <tr>
-          <td class="col-id">2025002</td>
-          <td class="col-last">Moreau</td>
-          <td class="col-first">Lucas</td>
-          <td class="col-course">Databases</td>
-          <td class="checkbox-cell"><input class="present-checkbox" type="checkbox" aria-label="Lucas present"></td>
-          <td class="checkbox-cell"><input class="participated-checkbox" type="checkbox" aria-label="Lucas participated"></td>
-        </tr>
-        <tr>
-          <td class="col-id">2025003</td>
-          <td class="col-last">Chen</td>
-          <td class="col-first">Mei</td>
-          <td class="col-course">Networks</td>
-          <td class="checkbox-cell"><input class="present-checkbox" type="checkbox" aria-label="Mei present" checked></td>
-          <td class="checkbox-cell"><input class="participated-checkbox" type="checkbox" aria-label="Mei participated" checked></td>
-        </tr>
-        <tr>
-          <td class="col-id">2025004</td>
-          <td class="col-last">Osei</td>
-          <td class="col-first">Kwame</td>
-          <td class="col-course">Algorithms</td>
-          <td class="checkbox-cell"><input class="present-checkbox" type="checkbox" aria-label="Kwame present" checked></td>
-          <td class="checkbox-cell"><input class="participated-checkbox" type="checkbox" aria-label="Kwame participated"></td>
-        </tr>
-      </tbody>
-      <caption id="attendance-desc">Each row contains one student; the "Session date" column is split into "Present" and "Participated" for that session. Use the header checkboxes to toggle an entire column.</caption>
-    </table>
-  </div>
 
-  <!-- JavaScript removed: header toggles and column wiring intentionally removed to keep the page static -->
+<div class="container">
+    <header>
+        <h1>Attendance Tracker</h1>
+    </header>
+
+    
+
+    <table id="table">
+        <thead>
+            <tr>
+                <th>Last Name</th>
+                <th>First Name</th>
+                <th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>S5</th><th>S6</th>
+                <th>P1</th><th>P2</th><th>P3</th><th>P4</th><th>P5</th><th>P6</th>
+                <th>Absences</th>
+                <th>Participation</th>
+                <th>Message</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Ahmed</td>
+                <td>Sara</td>
+                <td><button class="btn" data-type="s"></button></td>
+                <td><button class="btn present" data-type="s">✓</button></td>
+                <td><button class="btn" data-type="s"></button></td>
+                <td><button class="btn" data-type="s"></button></td>
+                <td><button class="btn" data-type="s"></button></td>
+                <td><button class="btn" data-type="s"></button></td>
+                <td><button class="btn" data-type="p"></button></td>
+                <td><button class="btn participate" data-type="p">✓</button></td>
+                <td><button class="btn" data-type="p"></button></td>
+                <td><button class="btn" data-type="p"></button></td>
+                <td><button class="btn" data-type="p"></button></td>
+                <td><button class="btn" data-type="p"></button></td>
+                <td class="abs-count"></td>
+                <td class="part-count"></td>
+                <td class="msg"></td>
+            </tr>
+            <tr>
+                <td>Yacine</td>
+                <td>Ali</td>
+                <td><button class="btn present" data-type="s">✓</button></td>
+                <td><button class="btn" data-type="s"></button></td>
+                <td><button class="btn present" data-type="s">✓</button></td>
+                <td><button class="btn present" data-type="s">✓</button></td>
+                <td><button class="btn present" data-type="s">✓</button></td>
+                <td><button class="btn present" data-type="s">✓</button></td>
+                <td><button class="btn participate" data-type="p">✓</button></td>
+                <td><button class="btn" data-type="p"></button></td>
+                <td><button class="btn participate" data-type="p">✓</button></td>
+                <td><button class="btn participate" data-type="p">✓</button></td>
+                <td><button class="btn participate" data-type="p">✓</button></td>
+                <td><button class="btn participate" data-type="p">✓</button></td>
+                <td class="abs-count"></td>
+                <td class="part-count"></td>
+                <td class="msg"></td>
+            </tr>
+            <tr>
+                <td>Houcine</td>
+                <td>Rania</td>
+                <td><button class="btn present" data-type="s">✓</button></td>
+                <td><button class="btn" data-type="s"></button></td>
+                <td><button class="btn present" data-type="s">✓</button></td>
+                <td><button class="btn" data-type="s"></button></td>
+                <td><button class="btn" data-type="s"></button></td>
+                <td><button class="btn" data-type="s"></button></td>
+                <td><button class="btn participate" data-type="p">✓</button></td>
+                <td><button class="btn" data-type="p"></button></td>
+                <td><button class="btn participate" data-type="p">✓</button></td>
+                <td><button class="btn" data-type="p"></button></td>
+                <td><button class="btn" data-type="p"></button></td>
+                <td><button class="btn" data-type="p"></button></td>
+                <td class="abs-count"></td>
+                <td class="part-count"></td>
+                <td class="msg"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <button class="calc-btn" onclick="calculateResults()">Calculate Results</button>
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
