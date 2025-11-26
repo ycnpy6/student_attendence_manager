@@ -1,0 +1,119 @@
+attendance-system/
+│
+├── assets/
+│   ├── css/           # Stylesheets
+│   ├── js/            # JavaScript files (include jQuery)
+│   ├── images/        # Logos, icons ...
+│
+├── includes/          # Shared PHP logic (db connection, auth, helpers)
+│
+├── templates/         # Reusable HTML blocks (header, footer, forms)
+│
+├── admin/             # Admin pages (dashboard, import/export, student mgmt)
+│
+├── professor/         # Professor pages (sessions, attendance marking)
+│
+├── student/           # Student pages (status, justification)
+│
+├── database/          # SQL files, migrations, backups
+│
+├── index.php          # Entry point & routing 
+│
+└── README.md          # Project info/instructions
+Step-by-Step Implementation Plan
+Step 1: Set Up Your Local Development Environment
+
+    Install XAMPP, MAMP, or LAMP for local PHP and MySQL/MariaDB.
+
+    Create a new project folder as shown above.
+
+Step 2: Build the Database
+
+    In database/, design your ER schema (tables: users, attendance, sessions, justifications, courses...).
+
+    Create a .sql file (e.g. attendance_db.sql) for initial setup.
+
+    Use phpMyAdmin to import and initialize the database.
+
+    ​
+
+Step 3: Create Modular Backend Files
+
+    In includes/, add:
+
+        db_connect.php: centralized DB connection logic.
+
+        auth.php: user authentication and role check helpers.
+
+        functions.php: reusable PHP logic (data validation, error logging).
+
+Step 4: Design Core Pages for Each Role
+
+    Student pages (student/):
+
+        dashboard.php (list courses, view attendance).
+
+        justify.php (submit absence justifications).
+
+    Professor pages (professor/):
+
+        dashboard.php (courses + sessions).
+
+        mark_attendance.php (take attendance).
+
+        summary.php (attendance table).
+
+    Admin pages (admin/):
+
+        dashboard.php (stats/charts).
+
+        manage_students.php (CRUD, import/export).
+
+        settings.php (other configs).
+
+Step 5: Implement Frontend with jQuery
+
+    In assets/js/, include jQuery and add logic for AJAX form submissions and UI interactivity.
+
+    Use assets/css/ for responsive/mobile-first styles (Bootstrap or custom).
+
+Step 6: Add Reusable Templates
+
+    Put header, footer, navigation bars, and common forms in templates/.
+
+    Include these into pages using PHP include.
+
+Step 7: Develop Authentication & Role Management
+
+    On index.php, process login and route users to the right dashboard based on role.
+
+    Block access to unauthorized pages using logic from auth.php.
+
+Step 8: Connect Frontend to Backend
+
+    Use jQuery AJAX to submit forms without full page reloads (e.g., attendance marking, justification upload).
+
+    Return JSON or HTML as appropriate.
+
+Step 9: Test and Debug
+
+    Test each user flow: login, attendance marking, stats, import/export.
+
+    Make sure error handling and feedback are clear.
+
+    Fix bugs and optimize queries.
+
+Step 10: Final Review & Documentation
+
+    Clean up code and organize files.
+
+    Provide instructions in README.md for setup, usage, and demo accounts.
+
+Quick Visual Reminder
+
+    Structure & Flow Mnemonic:
+    MVC — Model (Database), View (Templates/Assets), Controller (Backend PHP for each role)
+
+Next step for you:
+Which feature or user role would you like to start with? If you tell me your exact course or grade level, I can make this plan even more tailored. And if you want example code for one page or folder, let me know what you'd like to see!
+                    

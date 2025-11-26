@@ -1,0 +1,50 @@
+# Environment variables
+.env
+
+# Database configuration (sensitive)
+includes/config.php
+
+# Temporary files
+*.tmp
+*.log
+*.cache
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.DS_Store
+Thumbs.db
+
+# PHP temporary files
+*.php~
+*.swp
+*.swo
+
+# Uploaded files (justification evidence)
+uploads/*
+!uploads/.gitkeep
+
+# Test and debug files
+test_db.php
+check_db.php
+fix_student_password.php
+setup_initial_data.php
+
+# Node modules (if you add any frontend tooling later)
+node_modules/
+
+# Composer dependencies (if you use Composer later)
+vendor/
+
+# Database dumps (except the schema)
+*.sql
+!database/attendance_db.sql
+
+# Session files
+sessions/
+
+# Cache directories
+cache/
+tmp/
