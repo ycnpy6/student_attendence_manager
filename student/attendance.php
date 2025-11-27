@@ -5,7 +5,7 @@ require_once __DIR__ . '/../includes/db_connect.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/functions.php';
 
-require_role('student');
+require_role('Student');
 
 $student_id = get_current_user_id();
 

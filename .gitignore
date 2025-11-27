@@ -31,6 +31,12 @@ test_db.php
 check_db.php
 fix_student_password.php
 setup_initial_data.php
+test_login.php
+test_professor.php
+check_students.php
+check_database_status.php
+debug_login.php
+clear_session.php
 
 # Node modules (if you add any frontend tooling later)
 node_modules/

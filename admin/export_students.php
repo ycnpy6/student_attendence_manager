@@ -5,7 +5,7 @@ require_once __DIR__ . '/../includes/db_connect.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/functions.php';
 
-require_role('admin');
+require_role('Admin');
 
 $students = get_all_students();
 

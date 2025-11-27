@@ -93,11 +93,11 @@ function logout_user() {
 
 // Get redirect URL based on user role
 function get_dashboard_url() {
-    if (has_role('admin')) {
+    if (has_role('Admin')) {
         return '/attendence_manager2.0/admin/index.php';
-    } elseif (has_role('professor')) {
+    } elseif (has_role('Professor')) {
         return '/attendence_manager2.0/professor/index.php';
-    } elseif (has_role('student')) {
+    } elseif (has_role('Student')) {
         return '/attendence_manager2.0/student/index.php';
     }
     return '/attendence_manager2.0/index.php';

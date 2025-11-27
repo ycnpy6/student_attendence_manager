@@ -5,7 +5,7 @@ require_once __DIR__ . '/../includes/db_connect.php';
 require_once __DIR__ . '/../includes/auth.php';
 require_once __DIR__ . '/../includes/functions.php';
 
-require_role('professor');
+require_role('Professor');
 
 if (!isset($_GET['course_id']) || !is_numeric($_GET['course_id'])) {
     header('Location: index.php');
