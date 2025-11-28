@@ -1,105 +1,111 @@
-# Attendance Management System 🎓
+# Attendance Management System
 
-A comprehensive attendance management system for Algerian universities with separate interfaces for Admins, Professors, and Students.
+A web-based attendance management system designed for Algerian universities. The system provides separate interfaces for administrators, professors, and students to manage and track class attendance efficiently.
 
-## 📋 Features
+## Features
 
-### Admin Features
-- **Course Management**: Create, edit, and delete courses
-- **Professor Assignment**: Assign professors to courses  
-- **Student Enrollment**: Enroll students in courses
-- **Analytics Dashboard**: View attendance statistics, trends, and reports with charts
-- **User Management**: Manage professors and students
+### Administrator Features
+- Manage courses (create, edit, delete)
+- Assign professors to courses
+- Enroll students in courses
+- View comprehensive analytics and attendance reports with interactive charts
+- Manage system users
 
 ### Professor Features
-- **Session Management**: Create class sessions with date and time
-- **Attendance Marking**: Mark student attendance (Present/Absent/Late/Excused)
-- **Justification Review**: Review and approve/reject student absence justifications
+- Create class sessions with specific dates and times
+- Mark student attendance (Present, Absent, Late, Excused)
+- Review and respond to student absence justifications
 
 ### Student Features
-- **My Attendance**: View attendance records for all enrolled courses
-- **Justify Absence**: Submit justification requests with optional file upload
-- **My Justifications**: Track status of submitted justifications
-- **Dashboard**: Overview of attendance statistics
+- View personal attendance records for all enrolled courses
+- Submit justification requests for absences with optional file attachments
+- Track the status of submitted justifications
+- Access attendance statistics and summaries
 
-## 🛠️ Technology Stack
+## Technology Stack
 
-- **Backend**: PHP 7.4+
-- **Database**: MySQL 5.7+
-- **Frontend**: Bootstrap 5, jQuery, Chart.js
-- **Server**: Apache (XAMPP)
+- Backend: PHP 7.4 or higher
+- Database: MySQL 5.7 or higher
+- Frontend: Bootstrap 5, jQuery, Chart.js
+- Server: Apache (included in XAMPP)
 
-## 📥 Installation Instructions
+## Installation Guide
 
-### 1. Prerequisites
-- XAMPP (or any Apache + MySQL + PHP stack)
-- Web browser
-- Git (optional)
+### Requirements
+- XAMPP (or similar Apache + MySQL + PHP environment)
+- Modern web browser
+- Git (optional, for cloning)
 
-### 2. Setup Steps
+### Installation Steps
 
-#### Step 1: Get the Code
+**Step 1: Download the Project**
+
+Clone the repository or download and extract the ZIP file:
 ```bash
 cd C:\xampp\htdocs
-git clone <your-repo-url> attendence_manager2.0
+git clone https://github.com/ycnpy6/student_attendence_manager.git attendence_manager2.0
 ```
-Or extract the ZIP file to `C:\xampp\htdocs\attendence_manager2.0`
 
-#### Step 2: Configure Database Connection
-1. Navigate to `includes/` folder
-2. Copy `config.example.php` to `config.php`
-3. Edit `config.php` if needed (default XAMPP settings work as-is):
-   ```php
-   DB_HOST: localhost
-   DB_USER: root
-   DB_PASS: (empty)
-   DB_NAME: attendence_manager
-   ```
+**Step 2: Configure Database Connection**
 
-#### Step 3: Create Database
-1. Open phpMyAdmin: http://localhost/phpmyadmin
-2. Create a new database named `attendence_manager`
-3. Click "Import" tab
-4. Select file: `database/attendance_db.sql`
-5. Click "Go" to import
+1. Navigate to the `includes` folder
+2. Copy `config.example.php` and rename it to `config.php`
+3. Open `config.php` and verify the database settings (default XAMPP settings should work without changes):
+   - DB_HOST: localhost
+   - DB_USER: root
+   - DB_PASS: (leave empty)
+   - DB_NAME: attendence_manager
 
-#### Step 4: Seed Database with Sample Data
-1. Open browser: http://localhost/attendence_manager2.0/seed_database_new.php
-2. Wait for script to complete (creates professors, students, courses, sessions, attendance)
-3. You should see success message with summary
+**Step 3: Create the Database**
 
-#### Step 5: Access the Application
-- Open: http://localhost/attendence_manager2.0/
-- Login with credentials below
+1. Start XAMPP and ensure MySQL is running
+2. Open phpMyAdmin by visiting http://localhost/phpmyadmin
+3. Create a new database named `attendence_manager`
+4. Click the Import tab
+5. Choose the file `database/attendance_db.sql` from the project folder
+6. Click Go to import the database structure
 
-## 🔑 Login Credentials
+**Step 4: Populate the Database**
 
-### Admin
-- Email: `admin@university.edu`
-- Password: `password123`
+1. Open your web browser
+2. Visit http://localhost/attendence_manager2.0/seed_database_new.php
+3. Wait for the script to complete (this creates sample professors, students, courses, and attendance records)
+4. You should see a success message when finished
 
-### Professors (10 total)
-- `yache@professor.university.edu` / `password123`
-- `hemili@professor.university.edu` / `password123`
-- `benhadid@professor.university.edu` / `password123`
-- `zairi@professor.university.edu` / `password123`
-- `ghoul@professor.university.edu` / `password123`
-- `madi@professor.university.edu` / `password123`
-- `abdelalim@professor.university.edu` / `password123`
-- `kara@professor.university.edu` / `password123`
-- `berkane@professor.university.edu` / `password123`
-- `salhi@professor.university.edu` / `password123`
+**Step 5: Access the System**
 
-### Students (5 total)
-- `yacine.adjaout@student.university.edu` / `password123`
-- `houssam.admane@student.university.edu` / `password123`
-- `abderrahmane.baaziz@student.university.edu` / `password123`
-- `youcef.djelouah@student.university.edu` / `password123`
-- `mohamed.bouaboub@student.university.edu` / `password123`
+Open http://localhost/attendence_manager2.0/ in your browser and login using the credentials below.
 
-## 📚 Courses (Computer Science Curriculum)
+## Login Credentials
 
-The system includes 15 CS courses from Algerian university curriculum:
+After running the seed script, you can login with these accounts:
+
+**Administrator**
+- Email: admin@university.edu
+- Password: password123
+
+**Professors** (10 accounts available)
+- yache@professor.university.edu / password123
+- hemili@professor.university.edu / password123
+- benhadid@professor.university.edu / password123
+- zairi@professor.university.edu / password123
+- ghoul@professor.university.edu / password123
+- madi@professor.university.edu / password123
+- abdelalim@professor.university.edu / password123
+- kara@professor.university.edu / password123
+- berkane@professor.university.edu / password123
+- salhi@professor.university.edu / password123
+
+**Students** (5 accounts available)
+- yacine.adjaout@student.university.edu / password123
+- houssam.admane@student.university.edu / password123
+- abderrahmane.baaziz@student.university.edu / password123
+- youcef.djelouah@student.university.edu / password123
+- mohamed.bouaboub@student.university.edu / password123
+
+## Available Courses
+
+The system includes 15 Computer Science courses based on the Algerian university curriculum:
 
 | Code | Course Name |
 |------|-------------|
@@ -119,7 +125,7 @@ The system includes 15 CS courses from Algerian university curriculum:
 | TG | Théorie des Graphes |
 | PFE | Projet de Fin d'Études |
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 attendence_manager2.0/
@@ -160,105 +166,88 @@ attendence_manager2.0/
 └── seed_database_new.php # Database seeding script
 ```
 
-## 🎨 Features in Detail
+## Key Features Explained
 
-### Attendance Justification System
-- Students can submit justification requests for absences
-- Optional file upload support (PDF, JPG, PNG, DOC - max 5MB)
-- Professors can review and approve/reject justifications
-- Status tracking: Pending, Approved, Rejected
-- Files stored in `uploads/justifications/`
+**Attendance Justification System**
+Students can submit justification requests when they miss a class. They can optionally attach supporting documents (PDF, JPG, PNG, DOC files up to 5MB). Professors can then review these requests and either approve or reject them. The system tracks three status types: Pending, Approved, and Rejected.
 
-### Analytics Dashboard (Admin)
-- Monthly attendance trends with Chart.js
-- Course performance comparison
-- Top students by attendance rate
-- Low attendance alerts
-- Professor activity tracking
+**Analytics Dashboard**
+The administrator dashboard includes visual charts showing monthly attendance trends, course performance comparisons, and lists of top-performing students. It also highlights students with low attendance rates and tracks professor activity across the system.
 
-### Role-Based Access Control
-- **Admin**: Full system access, manage courses/users/analytics
-- **Professor**: Manage sessions, mark attendance, review justifications
-- **Student**: View attendance, submit justifications
+**Role-Based Access**
+The system uses three user roles with different permissions:
+- Administrator: Full access to all system features including user management and analytics
+- Professor: Can create sessions, mark attendance, and review student justifications
+- Student: Can view their attendance records and submit absence justifications
 
-## 🔧 Troubleshooting
+## Troubleshooting Common Issues
 
-### Database Connection Error
-- ✅ Ensure XAMPP MySQL is running
-- ✅ Check credentials in `includes/config.php`
-- ✅ Verify database name is `attendence_manager`
+**Database Connection Error**
+- Make sure MySQL is running in XAMPP
+- Check that the credentials in `includes/config.php` are correct
+- Verify the database name is `attendence_manager`
 
-### Login Not Working
-- ✅ Run `seed_database_new.php` to populate users
-- ✅ Check roles table has capitalized values: `Admin`, `Professor`, `Student`
-- ✅ Clear browser cookies/session
+**Login Problems**
+- Run the `seed_database_new.php` script to create user accounts
+- Ensure the roles in the database are capitalized: Admin, Professor, Student
+- Try clearing your browser cookies and cache
 
-### File Upload Issues
-- ✅ Ensure `uploads/justifications/` directory exists
-- ✅ Check directory permissions (writable)
-- ✅ Verify PHP upload settings in `php.ini`
+**File Upload Issues**
+- Check that the `uploads/justifications/` folder exists
+- Ensure the folder has write permissions
+- Verify PHP upload settings in your php.ini file
 
-### Page Not Found (404)
-- ✅ Ensure project is in `C:\xampp\htdocs\attendence_manager2.0`
-- ✅ Check Apache is running in XAMPP
-- ✅ Access via `http://localhost/attendence_manager2.0/`
+**Page Not Found Errors**
+- Confirm the project is located in `C:\xampp\htdocs\attendence_manager2.0`
+- Make sure Apache is running in XAMPP
+- Access the site using `http://localhost/attendence_manager2.0/`
 
-## ⚙️ Configuration
+## Important Notes
 
-### Database Configuration (`includes/config.php`)
-```php
-DB_HOST: localhost        # Database host
-DB_USER: root            # Database username
-DB_PASS:                 # Database password (empty for XAMPP)
-DB_NAME: attendence_manager  # Database name
-APP_NAME: Attendance Manager # Application name
-```
+**Security Reminder**
+The default password for all accounts is "password123". This is fine for development and testing, but you should change these passwords if you deploy this system in a real environment.
 
-### File Upload Settings
-- Allowed types: PDF, JPG, PNG, DOC, DOCX
-- Max file size: 5MB
-- Upload directory: `uploads/justifications/`
+**Database Settings**
+The system is configured to work with default XAMPP settings:
+- Database Host: localhost
+- Database User: root
+- Database Password: (empty)
+- Database Name: attendence_manager
 
-## 🔒 Security Notes
+**File Uploads**
+Students can upload the following file types as evidence for absence justifications:
+- PDF documents
+- Image files (JPG, PNG)
+- Word documents (DOC, DOCX)
+- Maximum file size: 5MB
 
-- **Change default passwords in production!**
-- Uses prepared statements to prevent SQL injection
-- Session-based authentication
-- File upload validation (type and size)
-- Role-based access control
+**User Roles**
+All role names in the database must be capitalized (Admin, Professor, Student) for the authentication system to work properly.
 
-## 📝 Development Notes
+## Usage Guide
 
-- All role names are **capitalized**: `Admin`, `Professor`, `Student`
-- Session management uses PHP `$_SESSION`
-- Bootstrap 5 for responsive design
-- Clean, minimal styling with purple/indigo theme
-- Chart.js for analytics visualization
+**For Professors:**
+1. Login using your professor account
+2. Navigate to "Sessions" to create a new class session
+3. After the class, click "Mark Attendance" to record which students were present
+4. Check "Justifications" to review and respond to student absence requests
 
-## 🎯 Usage Guide
+**For Students:**
+1. Login using your student account
+2. Visit "My Attendance" to see your attendance records across all courses
+3. If you missed a class, use "Justify Absence" to submit an explanation
+4. Track your justification requests in "My Justifications"
 
-### For Professors
-1. Login with professor credentials
-2. Go to "Sessions" to create a new class session
-3. After session, click "Mark Attendance" to record student presence
-4. Review student justifications in "Justifications" page
+**For Administrators:**
+1. Login using the admin account
+2. Use "Courses" to manage the course catalog
+3. Assign professors to their respective courses
+4. Review system-wide statistics in the "Analytics" section
 
-### For Students
-1. Login with student credentials
-2. View attendance in "My Attendance"
-3. Submit absence justification in "Justify Absence"
-4. Track justification status in "My Justifications"
+## License and Credits
 
-### For Admins
-1. Login with admin credentials
-2. Manage courses in "Courses"
-3. Assign professors to courses
-4. View system analytics in "Analytics"
+This project was developed as an educational project for managing attendance in Algerian universities.
 
-## 📄 License
+## Author
 
-This project is for educational purposes.
-
-## 👨‍💻 Author
-
-Developed for Algerian university attendance management system.
+Developed for academic purposes.
